@@ -76,7 +76,7 @@ export default function App() {
           <img src="/logoisp.png" alt="ISP" className="logo" />
           <h1 className="topbar-title">Infraestructura y Servicios Portuarios</h1>
           <p className="topbar-subtitle">
-            Bienvenidos a <span>Cursos de Inducción</span>
+            Sistema de <span>Cursos de Inducción</span>
           </p>
         </div>
       </header>
