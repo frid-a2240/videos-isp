@@ -9,47 +9,41 @@ const folders = [
     id: 1,
     title: 'Colaboradores',
     videos: [
-      {
-        id: 1,
-        src: '/videos/video1.mp4',
-        titulo: 'Construcción de Barcaza de Sal 16',
-        duracion: '3:19',
-      },
+      { id: 1, src: '/videos/ambiental.mp4', titulo: 'Cuidado Ambiental', duracion: '25s' },
     ],
   },
   {
     id: 2,
     title: 'Proveedores',
     videos: [
-      {
-        id: 1,
-        src: '/videos/video1.mp4',
-        titulo: 'Construcción de Barcaza de Sal 16',
-        duracion: '3:19',
-      },
+      { id: 1, src: '/videos/calidad.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '38s' },
     ],
   },
   {
     id: 3,
     title: 'Clientes',
     videos: [
-      {
-        id: 1,
-        src: '/videos/video1.mp4',
-        titulo: 'Construcción de Barcaza de Sal 16',
-        duracion: '3:19',
-      },
+      { id: 1, src: '/videos/etica.mp4', titulo: 'Etica Organizacional o laboral', duracion: '13s' },
     ],
   },
   {
     id: 4,
     title: 'Administrativos',
     videos: [
+      { id: 1, src: '/videos/seguridad.mp4', titulo: 'Seguridad Empleados', duracion: '5s' },
+    ],
+  },
+  {
+    id: 5,
+    title: 'Dashboards',
+    tipo: 'powerbi',
+    videos: [
       {
         id: 1,
-        src: '/videos/video1.mp4',
-        titulo: 'Construcción de Barcaza de Sal 16',
-        duracion: '3:19',
+        tipo: 'powerbi',
+        src: 'https://app.powerbi.com/reportEmbed?reportId=33cea125-b0fc-41f1-9114-ce6b606173a0&autoAuth=true&ctid=1c34ff4a-d90e-4887-a1b1-ebd6298259f8',
+        titulo: 'Ejercicio 2 - Power BI',
+        duracion: 'Interactivo',
       },
     ],
   },
@@ -62,6 +56,7 @@ export default function App() {
 
   const currentFolder = folders.find(f => f.id === selectedFolder)
   const currentVideo = currentFolder?.videos.find(v => v.id === selectedVideo)
+  const isDashboardView = currentFolder?.tipo === 'powerbi'
 
   const goBack = () => {
     setSelectedFolder(null)
@@ -70,8 +65,9 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* ENCABEZADO CENTRADO */}
-      <header className="topbar">
+     {/* ENCABEZADO CENTRADO (oculto en vista dashboard) */}
+      {!isDashboardView && (
+        <header className="topbar">
         <div className="topbar-inner">
           <img src="/logoisp.png" alt="ISP" className="logo" />
           <h1 className="topbar-title">Infraestructura y Servicios Portuarios</h1>
@@ -79,7 +75,8 @@ export default function App() {
             Sistema de <span>Cursos de Inducción</span>
           </p>
         </div>
-      </header>
+        </header>
+      )}
 
       {/* CONTENIDO: CARPETAS o REPRODUCTOR */}
       <main className="main">
@@ -100,11 +97,7 @@ export default function App() {
                     key={folder.id}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.1,
-                      ease: 'easeOut',
-                    }}
+                    transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
                     onClick={() => setSelectedFolder(folder.id)}
                     className="folder-card"
                   >
@@ -113,7 +106,7 @@ export default function App() {
                     </div>
                     <span className="folder-title">{folder.title}</span>
                     <span className="folder-count">
-                      {folder.videos.length} video
+                      {folder.videos.length} {folder.tipo === 'powerbi' ? 'dashboard' : 'video'}
                       {folder.videos.length !== 1 ? 's' : ''}
                     </span>
                   </motion.button>
@@ -121,7 +114,7 @@ export default function App() {
               </div>
             </motion.div>
           ) : (
-            // ── VISTA 2: REPRODUCTOR ──
+            // ── VISTA 2: REPRODUCTOR / DASHBOARD ──
             <motion.div
               key="player"
               initial={{ opacity: 0, y: 20 }}
@@ -138,88 +131,99 @@ export default function App() {
                 <h2 className="player-folder-name">{currentFolder?.title}</h2>
               </div>
 
-              <div className="player-split">
-                {/* Lista de videos (izquierda) */}
-                <motion.aside
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
-                  className="player-sidebar"
+              {currentFolder?.tipo === 'powerbi' ? (
+                // ── VISTA DASHBOARD: iframe a pantalla completa ──
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="dashboard-fullwrap"
                 >
-                  <h3 className="sidebar-title">Lista de Videos</h3>
+                  <iframe
+                    title={currentFolder.videos[0].titulo}
+                    src={currentFolder.videos[0].src}
+                    className="dashboard-iframe"
+                    frameBorder="0"
+                    allowFullScreen={true}
+                  />
+                </motion.div>
+              ) : (
+                // ── VISTA VIDEOS: split con sidebar + reproductor ──
+                <div className="player-split">
+                  {/* Lista de videos (izquierda) */}
+                  <motion.aside
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
+                    className="player-sidebar"
+                  >
+                    <h3 className="sidebar-title">Lista de Videos</h3>
 
-                  {currentFolder?.videos.length === 0 ? (
-                    <div className="empty-state">
-                      Aún no hay videos en esta carpeta.
-                    </div>
-                  ) : (
-                    <div className="video-list">
-                      {currentFolder?.videos.map((video, index) => (
-                        <motion.button
-                          key={video.id}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.4,
-                            delay: 0.25 + index * 0.08,
-                            ease: 'easeOut',
-                          }}
-                          onClick={() => setSelectedVideo(video.id)}
-                          className={`video-list-item ${
-                            selectedVideo === video.id ? 'active' : ''
-                          }`}
-                        >
-                          <div className="video-list-icon">
-                            <Play size={14} />
-                          </div>
-                          <div className="video-list-meta">
-                            <p className="video-list-title">{video.titulo}</p>
-                            <p className="video-list-sub">
-                              Duración: {video.duracion}
-                            </p>
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
-                </motion.aside>
+                    {currentFolder?.videos.length === 0 ? (
+                      <div className="empty-state">
+                        Aún no hay videos en esta carpeta.
+                      </div>
+                    ) : (
+                      <div className="video-list">
+                        {currentFolder?.videos.map((video, index) => (
+                          <motion.button
+                            key={video.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.25 + index * 0.08, ease: 'easeOut' }}
+                            onClick={() => setSelectedVideo(video.id)}
+                            className={`video-list-item ${selectedVideo === video.id ? 'active' : ''}`}
+                          >
+                            <div className="video-list-icon">
+                              <Play size={14} />
+                            </div>
+                            <div className="video-list-meta">
+                              <p className="video-list-title">{video.titulo}</p>
+                              <p className="video-list-sub">Duración: {video.duracion}</p>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+                    )}
+                  </motion.aside>
 
-                {/* Reproductor (derecha) */}
-                <motion.section
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
-                  className="player-main"
-                >
-                  {selectedVideo && currentVideo ? (
-                    <div className="player-active">
-                      <div className="player-video-box">
-                        <video
-                          key={currentVideo.src}
-                          ref={el => (videoRefs.current[currentVideo.id] = el)}
-                          controls
-                          autoPlay
-                          className="player-video"
-                        >
-                          <source src={currentVideo.src} type="video/mp4" />
-                        </video>
+                  {/* Reproductor (derecha) */}
+                  <motion.section
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
+                    className="player-main"
+                  >
+                    {selectedVideo && currentVideo ? (
+                      <div className="player-active">
+                        <div className="player-video-box">
+                          <video
+                            key={currentVideo.src}
+                            ref={el => (videoRefs.current[currentVideo.id] = el)}
+                            controls
+                            autoPlay
+                            className="player-video"
+                          >
+                            <source src={currentVideo.src} type="video/mp4" />
+                          </video>
+                        </div>
+                        <div className="player-info">
+                          <h2>{currentVideo.titulo}</h2>
+                          <p>Duración: {currentVideo.duracion}</p>
+                        </div>
                       </div>
-                      <div className="player-info">
-                        <h2>{currentVideo.titulo}</h2>
-                        <p>Duración: {currentVideo.duracion}</p>
+                    ) : (
+                      <div className="player-placeholder">
+                        <div className="placeholder-icon">
+                          <Play size={32} />
+                        </div>
+                        <h3>Selecciona un video</h3>
+                        <p>Elige un video de la lista para comenzar a reproducirlo</p>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="player-placeholder">
-                      <div className="placeholder-icon">
-                        <Play size={32} />
-                      </div>
-                      <h3>Selecciona un video</h3>
-                      <p>Elige un video de la lista para comenzar a reproducirlo</p>
-                    </div>
-                  )}
-                </motion.section>
-              </div>
+                    )}
+                  </motion.section>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

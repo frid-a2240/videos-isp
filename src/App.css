@@ -58,15 +58,16 @@ body {
   width: 100%;
   background: #ffffff;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 80px 24px;
+  padding: 40px 24px;
 }
 
 /* ── VISTA 1: GRID DE CARPETAS ── */
 .folders-section {
   width: 100%;
   max-width: 1100px;
+  margin-top: 40px;
 }
 .folders-grid {
   display: grid;
@@ -149,7 +150,7 @@ body {
 /* ── VISTA 2: REPRODUCTOR ── */
 .player-wrap {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
 }
@@ -157,26 +158,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 20px 0;
+  padding: 0 0 16px 0;
   border-bottom: 1px solid #e8edf2;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 .btn-back {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: none;
+  background: #1f8c95;
   border: none;
-  color: #1f8c95;
+  color: #fff;
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  padding: 8px 0;
-  transition: color .2s ease;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: background .2s ease, transform .2s ease;
 }
 .btn-back:hover {
-  color: #1a1a2e;
+  background: #1a1a2e;
+  transform: translateY(-1px);
 }
 .player-folder-name {
   font-size: 13px;
@@ -304,6 +307,13 @@ body {
   max-height: 520px;
   object-fit: contain;
 }
+.player-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  border: 0;
+  background: #fff;
+}
 .player-info {
   padding: 20px 24px 24px;
   background: #fff;
@@ -353,6 +363,25 @@ body {
   max-width: 320px;
 }
 
+/* ── DASHBOARD FULLSCREEN ── */
+.dashboard-fullwrap {
+  width: 100%;
+  background: #1a1a2e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(26, 26, 46, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-iframe {
+  width: 100%;
+  height: calc(100vh - 100px);
+  min-height: 600px;
+  border: 0;
+  display: block;
+  background: #fff;
+}
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .folders-grid {
@@ -370,9 +399,13 @@ body {
 @media (max-width: 600px) {
   .topbar { padding: 24px 16px 22px; }
   .logo { width: 68px; height: 68px; }
-  .main { padding: 48px 16px; }
+  .main { padding: 32px 16px; }
   .folder-card { padding: 28px 16px 22px; }
   .folder-icon-wrap { width: 64px; height: 64px; }
   .folder-icon { width: 30px; height: 30px; }
   .folder-title { font-size: 15px; }
+  .dashboard-iframe {
+    height: calc(100vh - 100px);
+    min-height: 500px;
+  }
 }
