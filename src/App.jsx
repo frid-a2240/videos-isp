@@ -33,20 +33,7 @@ const folders = [
       { id: 1, src: '/videos/seguridad.mp4', titulo: 'Seguridad Empleados', duracion: '5s' },
     ],
   },
-  {
-    id: 5,
-    title: 'Dashboards',
-    tipo: 'powerbi',
-    videos: [
-      {
-        id: 1,
-        tipo: 'powerbi',
-        src: 'https://app.powerbi.com/reportEmbed?reportId=33cea125-b0fc-41f1-9114-ce6b606173a0&autoAuth=true&ctid=1c34ff4a-d90e-4887-a1b1-ebd6298259f8',
-        titulo: 'Ejercicio 2 - Power BI',
-        duracion: 'Interactivo',
-      },
-    ],
-  },
+  
 ]
 
 export default function App() {
