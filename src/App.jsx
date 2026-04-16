@@ -2,8 +2,8 @@ import './App.css'
 import { useState, useRef } from 'react'
 import { Folder, Play, ArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
-import Login from './Login.jsx'
-
+import Login from './login.jsx'
+import './login.css'
 // ── ESTRUCTURA DE CARPETAS ──
 const folders = [
   {
