@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import './Login.css'
+import { motion, AnimatePresence } from 'framer-motion'
+import "./login.css"
 
 const VALID_ID = '204726'
 const VALID_PW = 'isp2026'
