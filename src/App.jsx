@@ -2,6 +2,7 @@ import './App.css'
 import { useState, useRef } from 'react'
 import { Folder, Play, ArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
+import Login from './Login'
 
 // ── ESTRUCTURA DE CARPETAS ──
 const folders = [
@@ -33,10 +34,10 @@ const folders = [
       { id: 1, src: '/videos/seguridad.mp4', titulo: 'Seguridad Empleados', duracion: '5s' },
     ],
   },
-  
 ]
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState(null)
   const [selectedVideo, setSelectedVideo] = useState(null)
   const videoRefs = useRef({})
@@ -50,18 +51,47 @@ export default function App() {
     setSelectedVideo(null)
   }
 
+  const handleLogout = () => {
+    setSelectedFolder(null)
+    setSelectedVideo(null)
+    setIsLoggedIn(false)
+  }
+
+  // ── PANTALLA DE LOGIN ──
+  if (!isLoggedIn) {
+    return (
+      <AnimatePresence>
+        <Login onSuccess={() => setIsLoggedIn(true)} />
+      </AnimatePresence>
+    )
+  }
+
+  // ── APP PRINCIPAL ──
   return (
-    <div className="app">
-     {/* ENCABEZADO CENTRADO (oculto en vista dashboard) */}
+    <motion.div
+      className="app"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* ENCABEZADO CENTRADO (oculto en vista dashboard) */}
       {!isDashboardView && (
         <header className="topbar">
-        <div className="topbar-inner">
-          <img src="/logoisp.png" alt="ISP" className="logo" />
-          <h1 className="topbar-title">Infraestructura y Servicios Portuarios</h1>
-          <p className="topbar-subtitle">
-            Sistema de <span>Cursos de Inducción</span>
-          </p>
-        </div>
+          <div className="topbar-inner">
+            <img src="/logoisp.png" alt="ISP" className="logo" />
+            <h1 className="topbar-title">Infraestructura y Servicios Portuarios</h1>
+            <p className="topbar-subtitle">
+              Sistema de <span>Cursos de Inducción</span>
+            </p>
+          </div>
+          <button className="btn-logout" onClick={handleLogout} title="Cerrar sesión">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Cerrar sesión
+          </button>
         </header>
       )}
 
@@ -119,7 +149,6 @@ export default function App() {
               </div>
 
               {currentFolder?.tipo === 'powerbi' ? (
-                // ── VISTA DASHBOARD: iframe a pantalla completa ──
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -135,7 +164,6 @@ export default function App() {
                   />
                 </motion.div>
               ) : (
-                // ── VISTA VIDEOS: split con sidebar + reproductor ──
                 <div className="player-split">
                   {/* Lista de videos (izquierda) */}
                   <motion.aside
@@ -145,11 +173,8 @@ export default function App() {
                     className="player-sidebar"
                   >
                     <h3 className="sidebar-title">Lista de Videos</h3>
-
                     {currentFolder?.videos.length === 0 ? (
-                      <div className="empty-state">
-                        Aún no hay videos en esta carpeta.
-                      </div>
+                      <div className="empty-state">Aún no hay videos en esta carpeta.</div>
                     ) : (
                       <div className="video-list">
                         {currentFolder?.videos.map((video, index) => (
@@ -215,6 +240,6 @@ export default function App() {
           )}
         </AnimatePresence>
       </main>
-    </div>
+    </motion.div>
   )
 }

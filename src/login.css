@@ -1,0 +1,313 @@
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Regular.woff2') format('woff2'), url('/fonts/Mont-Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-SemiBold.woff2') format('woff2'), url('/fonts/Mont-SemiBold.woff') format('woff');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Bold.woff2') format('woff2'), url('/fonts/Mont-Bold.woff') format('woff');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ── RAÍZ: pantalla completa, dos columnas exactas ── */
+.ls-root {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: 'Mont', 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════
+   LADO IZQUIERDO — formulario blanco
+══════════════════════════════════════ */
+.ls-left {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.ls-left.shake {
+  animation: shake 0.45s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  18%      { transform: translateX(-7px); }
+  36%      { transform: translateX(7px); }
+  54%      { transform: translateX(-5px); }
+  72%      { transform: translateX(5px); }
+}
+
+.ls-inner {
+  width: 100%;
+  max-width: 400px;
+  padding: 3rem 2.5rem;
+}
+
+/* marca */
+.ls-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+}
+.ls-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.ls-company {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.3;
+  margin: 0 0 3px;
+}
+.ls-system {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1f8c95;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0;
+}
+
+.ls-divider {
+  height: 1px;
+  background: #e8edf2;
+  margin-bottom: 2rem;
+}
+
+/* títulos */
+.ls-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px;
+}
+.ls-subtitle {
+  font-size: 13px;
+  color: #7a8fa0;
+  margin: 0 0 1.75rem;
+}
+
+/* campos */
+.ls-field { margin-bottom: 1.1rem; }
+.ls-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #5a6b7a;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 6px;
+}
+.ls-input-wrap { position: relative; }
+.ls-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #90a4ae;
+  display: flex;
+  pointer-events: none;
+}
+.ls-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 42px 0 40px;
+  background: #f4f7f9;
+  border: 1.5px solid #e2eaf0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1a1a2e;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.ls-input::placeholder { color: #b0bec5; }
+.ls-input:focus {
+  border-color: #1f8c95;
+  box-shadow: 0 0 0 3.5px rgba(31,140,149,0.13);
+  background: #fff;
+}
+.ls-eye {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #90a4ae;
+  padding: 5px;
+  display: flex;
+  border-radius: 6px;
+  transition: color 0.2s;
+}
+.ls-eye:hover { color: #1a1a2e; }
+
+/* error */
+.ls-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff3f3;
+  border: 1px solid #ffc9c9;
+  border-radius: 8px;
+  color: #c0392b;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 13px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+/* botón */
+.ls-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #1a1a2e 0%, #1c3a45 55%, #1f8c95 100%);
+  color: #7fffd4;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  transition: filter 0.2s;
+}
+.ls-btn:hover:not(:disabled) { filter: brightness(1.12); }
+.ls-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.ls-spin { animation: spin 0.85s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* éxito */
+.ls-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+  gap: 10px;
+}
+.ls-success-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(31,140,149,0.1);
+  border: 2px solid rgba(31,140,149,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.ls-success-title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin: 0; }
+.ls-success-sub   { font-size: 13px; color: #7a8fa0; margin: 0 0 12px; }
+.ls-progress {
+  width: 100%;
+  height: 3px;
+  background: #e8edf2;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.ls-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1f8c95, #7fffd4);
+  border-radius: 99px;
+}
+
+/* footer */
+.ls-footer {
+  font-size: 11px;
+  color: #c0c8d0;
+  text-align: center;
+  margin-top: 2rem;
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════
+   LADO DERECHO — foto
+══════════════════════════════════════ */
+.ls-right {
+  position: relative;
+  overflow: hidden;
+}
+.ls-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.ls-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(10,14,26,0.15) 0%,
+    rgba(10,30,40,0.45) 55%,
+    rgba(10,14,26,0.75) 100%
+  );
+}
+.ls-caption {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  z-index: 1;
+}
+.ls-caption-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7fffd4;
+  background: rgba(31,140,149,0.22);
+  border: 1px solid rgba(127,255,212,0.3);
+  border-radius: 20px;
+  padding: 4px 13px;
+  margin-bottom: 12px;
+}
+.ls-caption-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — móvil apila verticalmente
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .ls-root {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+  }
+  .ls-left  { order: 2; }
+  .ls-right { order: 1; height: 220px; }
+  .ls-inner { padding: 2rem 1.75rem; }
+  .ls-caption { bottom: 1.25rem; left: 1.25rem; right: 1.25rem; }
+  .ls-caption-title { font-size: 20px; }
+}
