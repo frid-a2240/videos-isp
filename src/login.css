@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'Mont';
-  src: url('/fonts/Mont-Regular.woff2') format('woff2'), url('/fonts/Mont-Regular.woff') format('woff');
+  src: url('/fonts/Montserrat-Regular.woff2') format('woff2'), url('/fonts/Montserrat-Regular.woff') format('woff');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Mont';
-  src: url('/fonts/Mont-SemiBold.woff2') format('woff2'), url('/fonts/Mont-SemiBold.woff') format('woff');
+  src: url('/fonts/Montserrat-SemiBold.woff2') format('woff2'), url('/fonts/Montserrat-SemiBold.woff') format('woff');
   font-weight: 600; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Mont';
-  src: url('/fonts/Mont-Bold.woff2') format('woff2'), url('/fonts/Mont-Bold.woff') format('woff');
+  src: url('/fonts/Montserrat-Bold.woff2') format('woff2'), url('/fonts/Montserrat-Bold.woff') format('woff');
   font-weight: 700; font-style: normal; font-display: swap;
 }
 
@@ -48,8 +48,9 @@
 
 .ls-inner {
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   padding: 3rem 2.5rem;
+  margin-left: -40px; /* 🔥 esto lo mueve a la izquierda */
 }
 
 /* marca */
@@ -65,19 +66,21 @@
   object-fit: contain;
   flex-shrink: 0;
 }
+
 .ls-company {
-  font-size: 13px;
-  font-weight: 700;
-  color: #1a1a2e;
+  font-size: 18px;
+  font-weight: 700;           /* Mont Bold */
+  color: #2D3D52;
+  margin: 6px 0 2px;
   line-height: 1.3;
-  margin: 0 0 3px;
 }
+
 .ls-system {
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;   /* ← Bold */
   color: #1f8c95;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
+  text-transform: none;
+  letter-spacing: 0.02em;
   margin: 0;
 }
 
@@ -89,17 +92,17 @@
 
 /* títulos */
 .ls-title {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   color: #1a1a2e;
   margin: 0 0 6px;
 }
-.ls-subtitle {
-  font-size: 13px;
-  color: #7a8fa0;
-  margin: 0 0 1.75rem;
-}
 
+.ls-subtitle {
+  font-size: 14px;
+  color: #7a8fa0;
+  margin: 0 0 2rem;
+}
 /* campos */
 .ls-field { margin-bottom: 1.1rem; }
 .ls-label {
@@ -123,12 +126,12 @@
 }
 .ls-input {
   width: 100%;
-  height: 46px;
+  height: 50px;
   padding: 0 42px 0 40px;
   background: #f4f7f9;
   border: 1.5px solid #e2eaf0;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 15px;
   font-family: inherit;
   color: #1a1a2e;
   outline: none;
@@ -176,13 +179,13 @@
 /* botón */
 .ls-btn {
   width: 100%;
-  height: 48px;
+  height: 52px;
   margin-top: 1.5rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #1c3a45 55%, #1f8c95 100%);
-  color: #7fffd4;
+  background: #162D4A;   /* ← PANTONE 2380 C */
+  color: white;
   border: none;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
@@ -193,6 +196,7 @@
   gap: 9px;
   transition: filter 0.2s;
 }
+
 .ls-btn:hover:not(:disabled) { filter: brightness(1.12); }
 .ls-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 .ls-spin { animation: spin 0.85s linear infinite; }
@@ -238,7 +242,7 @@
   font-size: 11px;
   color: #c0c8d0;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   letter-spacing: 0.04em;
 }
 
@@ -259,14 +263,7 @@
   display: block;
 }
 .ls-photo-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(10,14,26,0.15) 0%,
-    rgba(10,30,40,0.45) 55%,
-    rgba(10,14,26,0.75) 100%
-  );
+  display: none;
 }
 .ls-caption {
   position: absolute;
@@ -310,4 +307,40 @@
   .ls-inner { padding: 2rem 1.75rem; }
   .ls-caption { bottom: 1.25rem; left: 1.25rem; right: 1.25rem; }
   .ls-caption-title { font-size: 20px; }
+}
+/* CENTRAR CONTENIDO EN IMAGEN */
+.ls-photo-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  z-index: 2;
+  color: white;
+}
+
+.ls-photo-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.ls-photo-company {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ls-photo-system {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* MÁS ANCHO EL LOGIN */
+.ls-inner {
+  width: 100%;
+  max-width: 520px; 
+  padding: 3.5rem 3rem;
 }
