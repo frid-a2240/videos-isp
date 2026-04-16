@@ -68,7 +68,7 @@
 }
 
 .ls-company {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;           /* Mont Bold */
   color: #2D3D52;
   margin: 6px 0 2px;
@@ -76,7 +76,7 @@
 }
 
 .ls-system {
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 700;   /* ← Bold */
   color: #1f8c95;
   text-transform: none;
