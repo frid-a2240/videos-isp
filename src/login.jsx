@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import "./login.css"
 
-const VALID_ID = '204726'
-const VALID_PW = 'isp2026'
+const USERS = [
+  { id: '204726', pw: 'isp2026' },
+  { id: '202326', pw: 'ens2026' },
+  { id: '2026lab', pw: 'lab2026' },
+]
 
 export default function Login({ onSuccess }) {
   const [id, setId] = useState('')
@@ -31,11 +34,13 @@ export default function Login({ onSuccess }) {
     await new Promise(r => setTimeout(r, 600))
     setLoading(false)
 
-    if (id.trim() === VALID_ID && pw === VALID_PW) {
+    const user = USERS.find(u => u.id === id.trim())
+
+    if (user && user.pw === pw) {
       onSuccess && onSuccess()
     } else {
       setError(
-        id.trim() !== VALID_ID
+        !user
           ? 'ID de empleado no reconocido.'
           : 'Contraseña incorrecta.'
       )
@@ -82,8 +87,6 @@ export default function Login({ onSuccess }) {
             <p className="ls-company">Infraestructura y Servicios Portuarios</p>
             <p className="ls-system">Sistema de Cursos de Inducción</p>
           </div>
-
-          {/* ls-divider eliminado — el borderBottom de arriba lo reemplaza */}
 
           <h2 className="ls-title">Iniciar sesión</h2>
           <p className="ls-subtitle">
