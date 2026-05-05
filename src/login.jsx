@@ -5,7 +5,7 @@ import "./login.css"
 const USERS = [
   { id: '204726', pw: 'isp2026' },
   { id: '202326', pw: 'ens2026' },
-  { id: '2026lab', pw: 'lab2026' },
+  { id: '2026', pw: 'induccion' },
 ]
 
 export default function Login({ onSuccess }) {
