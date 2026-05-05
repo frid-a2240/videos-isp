@@ -158,19 +158,44 @@ body {
   pointer-events: none;
 }
 .folder-card:hover {
-  border-color: #1f8c95;
   transform: translateY(-6px);
   box-shadow: 0 16px 40px rgba(26, 26, 46, 0.12);
 }
-.folder-card:hover::before {
-  background: linear-gradient(135deg, rgba(31,140,149,.04) 0%, rgba(127,255,212,.06) 100%);
+
+/* ── COLORES HOVER POR CARPETA ── */
+.folder-card.folder-blue:hover {
+  border-color: #2980b9;
+}
+.folder-card.folder-blue:hover::before {
+  background: linear-gradient(135deg, rgba(41,128,185,.05) 0%, rgba(168,230,255,.08) 100%);
 }
 
+.folder-card.folder-amber:hover {
+  border-color: #e6a817;
+}
+.folder-card.folder-amber:hover::before {
+  background: linear-gradient(135deg, rgba(230,168,23,.05) 0%, rgba(255,243,196,.08) 100%);
+}
+
+.folder-card.folder-rose:hover {
+  border-color: #e84393;
+}
+.folder-card.folder-rose:hover::before {
+  background: linear-gradient(135deg, rgba(232,67,147,.05) 0%, rgba(255,209,232,.08) 100%);
+}
+
+.folder-card.folder-teal:hover {
+  border-color: #1f8c95;
+}
+.folder-card.folder-teal:hover::before {
+  background: linear-gradient(135deg, rgba(31,140,149,.05) 0%, rgba(127,255,212,.08) 100%);
+}
+
+/* ── ICONO WRAP BASE ── */
 .folder-icon-wrap {
   width: 80px;
   height: 80px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #1a1a2e 0%, #1f8c95 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,12 +206,52 @@ body {
 .folder-card:hover .folder-icon-wrap {
   transform: scale(1.05);
 }
+
+/* ── COLORES POR CARPETA (iconos) ── */
+.folder-icon-wrap.folder-blue {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2980b9 100%);
+  box-shadow: 0 8px 24px rgba(41, 128, 185, 0.3);
+}
+.folder-icon-wrap.folder-blue .folder-icon {
+  color: #a8e6ff;
+}
+
+.folder-icon-wrap.folder-amber {
+  background: linear-gradient(135deg, #7b5e00 0%, #e6a817 100%);
+  box-shadow: 0 8px 24px rgba(230, 168, 23, 0.3);
+}
+.folder-icon-wrap.folder-amber .folder-icon {
+  color: #fff3c4;
+}
+
+.folder-icon-wrap.folder-rose {
+  background: linear-gradient(135deg, #7a1e3a 0%, #e84393 100%);
+  box-shadow: 0 8px 24px rgba(232, 67, 147, 0.3);
+}
+.folder-icon-wrap.folder-rose .folder-icon {
+  color: #ffd1e8;
+}
+
+.folder-icon-wrap.folder-teal {
+  background: linear-gradient(135deg, #0d4f52 0%, #1f8c95 100%);
+  box-shadow: 0 8px 24px rgba(31, 140, 149, 0.3);
+}
+.folder-icon-wrap.folder-teal .folder-icon {
+  color: #7fffd4;
+}
+
 .folder-icon {
   width: 38px;
   height: 38px;
-  color: #7fffd4;
   stroke-width: 2;
 }
+
+/* ── FOLDER COUNT COLOR POR CARPETA ── */
+.folder-card.folder-blue .folder-count { color: #2980b9; }
+.folder-card.folder-amber .folder-count { color: #c8930f; }
+.folder-card.folder-rose .folder-count { color: #e84393; }
+.folder-card.folder-teal .folder-count { color: #1f8c95; }
+
 .folder-title {
   font-size: 17px;
   font-weight: 700;
@@ -198,7 +263,6 @@ body {
 .folder-count {
   font-size: 12px;
   font-weight: 600;
-  color: #1f8c95;
   text-transform: uppercase;
   letter-spacing: .06em;
   position: relative;

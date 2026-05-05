@@ -10,6 +10,7 @@ const folders = [
     id: 1,
     title: 'Colaboradores',
     icon: Users,
+    color: 'folder-blue',
     videos: [
       { id: 1, src: '/videos/ambiental.mp4', titulo: 'Cuidado Ambiental', duracion: '25s' },
     ],
@@ -18,6 +19,7 @@ const folders = [
     id: 2,
     title: 'Proveedores',
     icon: Truck,
+    color: 'folder-amber',
     videos: [
       { id: 1, src: '/videos/calidad.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '38s' },
     ],
@@ -26,6 +28,7 @@ const folders = [
     id: 3,
     title: 'Clientes',
     icon: Handshake,
+    color: 'folder-rose',
     videos: [
       { id: 1, src: '/videos/etica.mp4', titulo: 'Etica Organizacional o laboral', duracion: '13s' },
     ],
@@ -34,6 +37,7 @@ const folders = [
     id: 4,
     title: 'Administrativos',
     icon: ShieldCheck,
+    color: 'folder-teal',
     videos: [
       { id: 1, src: '/videos/seguridad.mp4', titulo: 'Seguridad Empleados', duracion: '5s' },
     ],
@@ -120,9 +124,9 @@ export default function App() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
                     onClick={() => setSelectedFolder(folder.id)}
-                    className="folder-card"
+                    className={`folder-card ${folder.color}`}
                   >
-                    <div className="folder-icon-wrap">
+                    <div className={`folder-icon-wrap ${folder.color}`}>
                       <folder.icon className="folder-icon" />
                     </div>
                     <span className="folder-title">{folder.title}</span>
