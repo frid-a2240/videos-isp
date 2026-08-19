@@ -1,6 +1,6 @@
 import './App.css'
 import { useState, useRef } from 'react'
-import { Users, Truck, Handshake, ShieldCheck, Play, ArrowLeft } from 'lucide-react'
+import { Users, Leaf, Award, HardHat, Anchor, Play, ArrowLeft } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Login from './login.jsx'
 
@@ -8,38 +8,47 @@ import Login from './login.jsx'
 const folders = [
   {
     id: 1,
-    title: 'Colaboradores',
+    title: 'RH',
     icon: Users,
     color: 'folder-blue',
     videos: [
-      { id: 1, src: '/videos/ambiental.mp4', titulo: 'Cuidado Ambiental', duracion: '25s' },
+      { id: 1, src: '/videos/rh.mp4', titulo: 'Inducción de Recursos Humanos', duracion: '45s' },
     ],
   },
   {
     id: 2,
-    title: 'Proveedores',
-    icon: Truck,
+    title: 'SGA',
+    icon: Leaf,
     color: 'folder-amber',
     videos: [
-      { id: 1, src: '/videos/calidad.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '38s' },
+      { id: 1, src: '/videos/sga.mp4', titulo: 'Sistema de Gestión Ambiental', duracion: '6s' },
     ],
   },
   {
     id: 3,
-    title: 'Clientes',
-    icon: Handshake,
+    title: 'SGC',
+    icon: Award,
     color: 'folder-rose',
     videos: [
-      { id: 1, src: '/videos/etica.mp4', titulo: 'Etica Organizacional o laboral', duracion: '13s' },
+      { id: 1, src: '/videos/sgc.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '27s' },
     ],
   },
   {
     id: 4,
-    title: 'Administrativos',
-    icon: ShieldCheck,
+    title: 'SGSST',
+    icon: HardHat,
     color: 'folder-teal',
     videos: [
-      { id: 1, src: '/videos/seguridad.mp4', titulo: 'Seguridad Empleados', duracion: '5s' },
+      { id: 1, src: '/videos/sgsst.mp4', titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '81s' },
+    ],
+  },
+  {
+    id: 5,
+    title: 'PBIP',
+    icon: Anchor,
+    color: 'folder-blue',
+    videos: [
+      { id: 1, src: '/videos/pbip.mp4', titulo: 'Protección Portuaria (PBIP)', duracion: '36s' },
     ],
   },
 ]
