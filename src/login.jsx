@@ -58,7 +58,7 @@ export default function Login({ onSuccess }) {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.7 }}
       >
-        <img src="/isp.jpg" alt="Puerto ISP" className="ls-photo" />
+        <img src={`${import.meta.env.BASE_URL}isp.jpg`} alt="Puerto ISP" className="ls-photo" />
         <div className="ls-photo-overlay" />
       </motion.div>
 
@@ -79,7 +79,7 @@ export default function Login({ onSuccess }) {
             borderBottom: '1px solid #e8edf2'
           }}>
             <img
-              src="/logoisp.png"
+              src={`${import.meta.env.BASE_URL}logoisp.png`}
               alt="ISP"
               className="ls-logo"
               style={{ margin: '0 auto 0.5rem' }}

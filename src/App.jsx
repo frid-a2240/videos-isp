@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Login from './login.jsx'
 
 // ── ESTRUCTURA DE CARPETAS ──
+// BASE_URL usa la sub-ruta configurada en vite.config.js (ej. /induccion/)
+// en vez de una ruta absoluta fija, para que funcione al desplegar en IIS.
+const videoUrl = (name) => `${import.meta.env.BASE_URL}videos/${name}`
+
 const folders = [
   {
     id: 1,
@@ -12,7 +16,7 @@ const folders = [
     icon: Users,
     color: 'folder-blue',
     videos: [
-      { id: 1, src: '/videos/rh.mp4', titulo: 'Inducción de Recursos Humanos', duracion: '51s' },
+      { id: 1, src: videoUrl('rh.mp4'), titulo: 'Inducción de Recursos Humanos', duracion: '51s' },
     ],
   },
   {
@@ -21,7 +25,7 @@ const folders = [
     icon: Leaf,
     color: 'folder-amber',
     videos: [
-      { id: 1, src: '/videos/sga.mp4', titulo: 'Sistema de Gestión Ambiental', duracion: '6s' },
+      { id: 1, src: videoUrl('sga.mp4'), titulo: 'Sistema de Gestión Ambiental', duracion: '6s' },
     ],
   },
   {
@@ -30,7 +34,7 @@ const folders = [
     icon: Award,
     color: 'folder-rose',
     videos: [
-      { id: 1, src: '/videos/sgc.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '30s' },
+      { id: 1, src: videoUrl('sgc.mp4'), titulo: 'Sistema de Gestión de Calidad', duracion: '30s' },
     ],
   },
   {
@@ -39,7 +43,7 @@ const folders = [
     icon: HardHat,
     color: 'folder-teal',
     videos: [
-      { id: 1, src: '/videos/sgsst.mp4', titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '84s' },
+      { id: 1, src: videoUrl('sgsst.mp4'), titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '84s' },
     ],
   },
   {
@@ -48,7 +52,7 @@ const folders = [
     icon: Anchor,
     color: 'folder-blue',
     videos: [
-      { id: 1, src: '/videos/pbip.mp4', titulo: 'Protección Portuaria (PBIP)', duracion: '39s' },
+      { id: 1, src: videoUrl('pbip.mp4'), titulo: 'Protección Portuaria (PBIP)', duracion: '39s' },
     ],
   },
 ]
@@ -95,7 +99,7 @@ export default function App() {
       {!isDashboardView && (
         <header className="topbar">
           <div className="topbar-inner">
-            <img src="/logoisp.png" alt="ISP" className="logo" />
+            <img src={`${import.meta.env.BASE_URL}logoisp.png`} alt="ISP" className="logo" />
             <h1 className="topbar-title">Infraestructura y Servicios Portuarios</h1>
             <p className="topbar-subtitle">
               Sistema de <span>Cursos de Inducción</span>
