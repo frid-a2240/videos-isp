@@ -12,7 +12,7 @@ const folders = [
     icon: Users,
     color: 'folder-blue',
     videos: [
-      { id: 1, src: '/videos/rh.mp4', titulo: 'Inducción de Recursos Humanos', duracion: '45s' },
+      { id: 1, src: '/videos/rh.mp4', titulo: 'Inducción de Recursos Humanos', duracion: '51s' },
     ],
   },
   {
@@ -30,7 +30,7 @@ const folders = [
     icon: Award,
     color: 'folder-rose',
     videos: [
-      { id: 1, src: '/videos/sgc.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '27s' },
+      { id: 1, src: '/videos/sgc.mp4', titulo: 'Sistema de Gestión de Calidad', duracion: '30s' },
     ],
   },
   {
@@ -39,7 +39,7 @@ const folders = [
     icon: HardHat,
     color: 'folder-teal',
     videos: [
-      { id: 1, src: '/videos/sgsst.mp4', titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '81s' },
+      { id: 1, src: '/videos/sgsst.mp4', titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '84s' },
     ],
   },
   {
@@ -48,7 +48,7 @@ const folders = [
     icon: Anchor,
     color: 'folder-blue',
     videos: [
-      { id: 1, src: '/videos/pbip.mp4', titulo: 'Protección Portuaria (PBIP)', duracion: '36s' },
+      { id: 1, src: '/videos/pbip.mp4', titulo: 'Protección Portuaria (PBIP)', duracion: '39s' },
     ],
   },
 ]
