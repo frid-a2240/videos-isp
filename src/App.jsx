@@ -20,6 +20,10 @@ function slidesFor(folderKey) {
     .map((path) => slideModules[path])
 }
 
+// La sesión vive en sessionStorage: sobrevive a un refresh de la página,
+// pero se borra sola al cerrar la pestaña/navegador (no queda "recordada").
+const SESSION_KEY = 'isp_induccion_session'
+
 const folders = [
   { id: 1, title: 'RH', icon: Users, color: 'folder-blue', slides: slidesFor('rh') },
   { id: 2, title: 'SGA', icon: Leaf, color: 'folder-amber', slides: slidesFor('sga') },
@@ -29,7 +33,7 @@ const folders = [
 ]
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1')
   const [selectedFolder, setSelectedFolder] = useState(null)
   const [slideIndex, setSlideIndex] = useState(0)
   const [direction, setDirection] = useState(0)
@@ -67,11 +71,29 @@ export default function App() {
     return () => document.removeEventListener('fullscreenchange', onFullscreenChange)
   }, [])
 
-  const handleLogout = () => {
-    setSelectedFolder(null)
-    setSlideIndex(0)
-    setIsLoggedIn(false)
+  const handleLoginSuccess = () => {
+    sessionStorage.setItem(SESSION_KEY, '1')
+    setIsLoggedIn(true)
   }
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(SESSION_KEY)
+    // Recarga la página en vez de solo cambiar el estado: así no queda
+    // una vista "logueada" en el historial que el botón atrás/adelante
+    // o el bfcache del navegador puedan volver a mostrar sin credenciales.
+    window.location.reload()
+  }
+
+  // Si el navegador restaura la página desde el bfcache (botón atrás/adelante
+  // tras un cierre de sesión, o después de que la pestaña se quedó "trabada"),
+  // se fuerza una recarga para que vuelva a validar la sesión desde cero.
+  useEffect(() => {
+    const onPageShow = (e) => {
+      if (e.persisted) window.location.reload()
+    }
+    window.addEventListener('pageshow', onPageShow)
+    return () => window.removeEventListener('pageshow', onPageShow)
+  }, [])
 
   const goToNext = () => {
     if (slideIndex >= totalSlides - 1) return
@@ -100,7 +122,7 @@ export default function App() {
   if (!isLoggedIn) {
     return (
       <AnimatePresence>
-        <Login onSuccess={() => setIsLoggedIn(true)} />
+        <Login onSuccess={handleLoginSuccess} />
       </AnimatePresence>
     )
   }
