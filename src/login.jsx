@@ -6,6 +6,16 @@ const USERS = [
   { id: '204726', pw: 'isp2026' },
   { id: '202326', pw: 'ens2026' },
   { id: '2026', pw: 'induccion' },
+  { id: '204851', pw: 'valdez2026' },
+  { id: '204863', pw: 'muñiz2026' },
+  { id: '204510', pw: 'ruelas2026' },
+  { id: '204232', pw: 'tapiz2026' },
+  { id: '204877', pw: 'patron2026' },
+  { id: '204862', pw: 'arroyo2026' },
+  { id: '300138', pw: 'rodriguez2026' },
+  { id: '300131', pw: 'zamora2026' },
+  { id: '204941', pw: 'gomez2026' },
+  { id: '204495', pw: 'cue2026' },
 ]
 
 export default function Login({ onSuccess }) {
