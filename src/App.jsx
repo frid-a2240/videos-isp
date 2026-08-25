@@ -1,6 +1,6 @@
 import './App.css'
-import { useState, useEffect } from 'react'
-import { Users, Leaf, Award, HardHat, Anchor, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Users, Leaf, Award, HardHat, Anchor, ArrowLeft, ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Login from './login.jsx'
 
@@ -33,6 +33,8 @@ export default function App() {
   const [selectedFolder, setSelectedFolder] = useState(null)
   const [slideIndex, setSlideIndex] = useState(0)
   const [direction, setDirection] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const stageRef = useRef(null)
 
   const currentFolder = folders.find(f => f.id === selectedFolder)
   const currentSlides = currentFolder?.slides || []
@@ -46,9 +48,24 @@ export default function App() {
   }
 
   const goBack = () => {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {})
     setSelectedFolder(null)
     setSlideIndex(0)
   }
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {})
+    } else {
+      stageRef.current?.requestFullscreen?.().catch(() => {})
+    }
+  }
+
+  useEffect(() => {
+    const onFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange)
+  }, [])
 
   const handleLogout = () => {
     setSelectedFolder(null)
@@ -190,7 +207,16 @@ export default function App() {
                   transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
                   className="slideshow"
                 >
-                  <div className="slideshow-stage">
+                  <div className="slideshow-stage" ref={stageRef}>
+                    <button
+                      className="slideshow-fullscreen-btn"
+                      onClick={toggleFullscreen}
+                      aria-label={isFullscreen ? 'Salir de pantalla completa' : 'Ver en pantalla completa'}
+                      title={isFullscreen ? 'Salir de pantalla completa' : 'Modo presentación'}
+                    >
+                      {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                    </button>
+
                     <button
                       className="slideshow-arrow slideshow-arrow-left"
                       onClick={goToPrev}
@@ -201,7 +227,7 @@ export default function App() {
                     </button>
 
                     <div className="slideshow-image-wrap">
-                      <AnimatePresence mode="wait" custom={direction}>
+                      <AnimatePresence custom={direction}>
                         <motion.img
                           key={slideIndex}
                           src={currentSlides[slideIndex]}
@@ -211,7 +237,7 @@ export default function App() {
                           initial={{ opacity: 0, x: direction >= 0 ? 60 : -60 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: direction >= 0 ? -60 : 60 }}
-                          transition={{ duration: 0.35, ease: 'easeOut' }}
+                          transition={{ duration: 0.3, ease: 'easeOut' }}
                         />
                       </AnimatePresence>
                     </div>

@@ -312,34 +312,72 @@ body {
 .slideshow-stage {
   position: relative;
   width: 100%;
-  min-height: 480px;
+  height: 560px;
   background: #f4f7f9;
   border: 1px solid #e8edf2;
   border-radius: 16px;
-  padding: 40px 92px;
+  padding: 32px 92px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.slideshow-stage:fullscreen {
+  height: 100vh;
+  padding: 32px 110px;
+  border: none;
+  border-radius: 0;
+  background: #11141c;
 }
 .slideshow-image-wrap {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 .slideshow-image {
-  max-width: 100%;
-  max-height: 560px;
-  width: auto;
-  height: auto;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border-radius: 10px;
   border: 1px solid #e2eaf0;
   box-shadow: 0 12px 32px rgba(26, 26, 46, .14);
+}
+.slideshow-stage:fullscreen .slideshow-image {
+  border-color: rgba(255, 255, 255, .15);
+}
+.slideshow-fullscreen-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 6;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid #e2eaf0;
+  background: #ffffff;
+  color: #1f8c95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(26, 26, 46, .1);
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.slideshow-fullscreen-btn:hover {
+  background: #1f8c95;
+  color: #fff;
+  border-color: #1f8c95;
+  transform: scale(1.06);
+}
+.slideshow-stage:fullscreen .slideshow-fullscreen-btn {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .2);
+  color: #fff;
+}
+.slideshow-stage:fullscreen .slideshow-fullscreen-btn:hover {
+  background: #1f8c95;
+  border-color: #1f8c95;
 }
 .slideshow-arrow {
   position: absolute;
@@ -425,11 +463,12 @@ body {
     gap: 20px;
   }
   .slideshow-stage {
+    height: 320px;
     padding: 24px 58px;
-    min-height: 300px;
   }
-  .slideshow-image-wrap {
-    min-height: 260px;
+  .slideshow-stage:fullscreen {
+    height: 100vh;
+    padding: 20px 56px;
   }
   .slideshow-arrow {
     width: 42px;
