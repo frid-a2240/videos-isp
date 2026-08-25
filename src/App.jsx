@@ -1,82 +1,83 @@
 import './App.css'
-import { useState, useRef } from 'react'
-import { Users, Leaf, Award, HardHat, Anchor, Play, ArrowLeft } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Users, Leaf, Award, HardHat, Anchor, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Login from './login.jsx'
 
-// ── ESTRUCTURA DE CARPETAS ──
-// BASE_URL usa la sub-ruta configurada en vite.config.js (ej. /induccion/)
-// en vez de una ruta absoluta fija, para que funcione al desplegar en IIS.
-const videoUrl = (name) => `${import.meta.env.BASE_URL}videos/${name}`
+// ── DIAPOSITIVAS ──
+// Vite importa cada imagen y genera su URL final (respeta el base /induccion/
+// en el build, igual que las fuentes), ordenadas por el número del archivo.
+const slideModules = import.meta.glob('./assets/slides/*/*.jpg', { eager: true, import: 'default' })
+
+function slidesFor(folderKey) {
+  return Object.keys(slideModules)
+    .filter((path) => path.includes(`/assets/slides/${folderKey}/`))
+    .sort((a, b) => {
+      const numA = Number(a.match(/(\d+)\.jpg$/)[1])
+      const numB = Number(b.match(/(\d+)\.jpg$/)[1])
+      return numA - numB
+    })
+    .map((path) => slideModules[path])
+}
 
 const folders = [
-  {
-    id: 1,
-    title: 'RH',
-    icon: Users,
-    color: 'folder-blue',
-    videos: [
-      { id: 1, src: videoUrl('rh.mp4'), titulo: 'Inducción de Recursos Humanos', duracion: '51s' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'SGA',
-    icon: Leaf,
-    color: 'folder-amber',
-    videos: [
-      { id: 1, src: videoUrl('sga.mp4'), titulo: 'Sistema de Gestión Ambiental', duracion: '6s' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'SGC',
-    icon: Award,
-    color: 'folder-rose',
-    videos: [
-      { id: 1, src: videoUrl('sgc.mp4'), titulo: 'Sistema de Gestión de Calidad', duracion: '30s' },
-    ],
-  },
-  {
-    id: 4,
-    title: 'SGSST',
-    icon: HardHat,
-    color: 'folder-teal',
-    videos: [
-      { id: 1, src: videoUrl('sgsst.mp4'), titulo: 'Sistema de Gestión de Seguridad y Salud en el Trabajo', duracion: '84s' },
-    ],
-  },
-  {
-    id: 5,
-    title: 'PBIP',
-    icon: Anchor,
-    color: 'folder-blue',
-    videos: [
-      { id: 1, src: videoUrl('pbip.mp4'), titulo: 'Protección Portuaria (PBIP)', duracion: '39s' },
-    ],
-  },
+  { id: 1, title: 'RH', icon: Users, color: 'folder-blue', slides: slidesFor('rh') },
+  { id: 2, title: 'SGA', icon: Leaf, color: 'folder-amber', slides: slidesFor('sga') },
+  { id: 3, title: 'SGC', icon: Award, color: 'folder-rose', slides: slidesFor('sgc') },
+  { id: 4, title: 'SGSST', icon: HardHat, color: 'folder-teal', slides: slidesFor('sgsst') },
+  { id: 5, title: 'PBIP', icon: Anchor, color: 'folder-blue', slides: slidesFor('pbip') },
 ]
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [selectedFolder, setSelectedFolder] = useState(null)
-  const [selectedVideo, setSelectedVideo] = useState(null)
-  const videoRefs = useRef({})
+  const [slideIndex, setSlideIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
 
   const currentFolder = folders.find(f => f.id === selectedFolder)
-  const currentVideo = currentFolder?.videos.find(v => v.id === selectedVideo)
+  const currentSlides = currentFolder?.slides || []
+  const totalSlides = currentSlides.length
   const isDashboardView = currentFolder?.tipo === 'powerbi'
+
+  const openFolder = (id) => {
+    setSelectedFolder(id)
+    setSlideIndex(0)
+    setDirection(0)
+  }
 
   const goBack = () => {
     setSelectedFolder(null)
-    setSelectedVideo(null)
+    setSlideIndex(0)
   }
 
   const handleLogout = () => {
     setSelectedFolder(null)
-    setSelectedVideo(null)
+    setSlideIndex(0)
     setIsLoggedIn(false)
   }
+
+  const goToNext = () => {
+    if (slideIndex >= totalSlides - 1) return
+    setDirection(1)
+    setSlideIndex((i) => i + 1)
+  }
+
+  const goToPrev = () => {
+    if (slideIndex <= 0) return
+    setDirection(-1)
+    setSlideIndex((i) => i - 1)
+  }
+
+  // Flechas del teclado para avanzar/retroceder diapositiva
+  useEffect(() => {
+    if (!selectedFolder || isDashboardView) return
+    const onKeyDown = (e) => {
+      if (e.key === 'ArrowRight') goToNext()
+      if (e.key === 'ArrowLeft') goToPrev()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [selectedFolder, slideIndex, totalSlides, isDashboardView])
 
   // ── PANTALLA DE LOGIN ──
   if (!isLoggedIn) {
@@ -116,7 +117,7 @@ export default function App() {
         </header>
       )}
 
-      {/* CONTENIDO: CARPETAS o REPRODUCTOR */}
+      {/* CONTENIDO: CARPETAS o DIAPOSITIVAS */}
       <main className="main">
         <AnimatePresence mode="wait">
           {!selectedFolder ? (
@@ -136,23 +137,19 @@ export default function App() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-                    onClick={() => setSelectedFolder(folder.id)}
+                    onClick={() => openFolder(folder.id)}
                     className={`folder-card ${folder.color}`}
                   >
                     <div className={`folder-icon-wrap ${folder.color}`}>
                       <folder.icon className="folder-icon" />
                     </div>
                     <span className="folder-title">{folder.title}</span>
-                    <span className="folder-count">
-                      {folder.videos.length} {folder.tipo === 'powerbi' ? 'dashboard' : 'video'}
-                      {folder.videos.length !== 1 ? 's' : ''}
-                    </span>
                   </motion.button>
                 ))}
               </div>
             </motion.div>
           ) : (
-            // ── VISTA 2: REPRODUCTOR / DASHBOARD ──
+            // ── VISTA 2: DIAPOSITIVAS / DASHBOARD ──
             <motion.div
               key="player"
               initial={{ opacity: 0, y: 20 }}
@@ -169,7 +166,7 @@ export default function App() {
                 <h2 className="player-folder-name">{currentFolder?.title}</h2>
               </div>
 
-              {currentFolder?.tipo === 'powerbi' ? (
+              {isDashboardView ? (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -177,85 +174,70 @@ export default function App() {
                   className="dashboard-fullwrap"
                 >
                   <iframe
-                    title={currentFolder.videos[0].titulo}
-                    src={currentFolder.videos[0].src}
+                    title={currentFolder.title}
+                    src={currentFolder.slides[0]}
                     className="dashboard-iframe"
                     frameBorder="0"
                     allowFullScreen={true}
                   />
                 </motion.div>
+              ) : totalSlides === 0 ? (
+                <div className="empty-state">Aún no hay diapositivas en esta carpeta.</div>
               ) : (
-                <div className="player-split">
-                  {/* Lista de videos (izquierda) */}
-                  <motion.aside
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
-                    className="player-sidebar"
-                  >
-                    <h3 className="sidebar-title">Lista de Videos</h3>
-                    {currentFolder?.videos.length === 0 ? (
-                      <div className="empty-state">Aún no hay videos en esta carpeta.</div>
-                    ) : (
-                      <div className="video-list">
-                        {currentFolder?.videos.map((video, index) => (
-                          <motion.button
-                            key={video.id}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, delay: 0.25 + index * 0.08, ease: 'easeOut' }}
-                            onClick={() => setSelectedVideo(video.id)}
-                            className={`video-list-item ${selectedVideo === video.id ? 'active' : ''}`}
-                          >
-                            <div className="video-list-icon">
-                              <Play size={14} />
-                            </div>
-                            <div className="video-list-meta">
-                              <p className="video-list-title">{video.titulo}</p>
-                              <p className="video-list-sub">Duración: {video.duracion}</p>
-                            </div>
-                          </motion.button>
-                        ))}
-                      </div>
-                    )}
-                  </motion.aside>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
+                  className="slideshow"
+                >
+                  <div className="slideshow-stage">
+                    <button
+                      className="slideshow-arrow slideshow-arrow-left"
+                      onClick={goToPrev}
+                      disabled={slideIndex === 0}
+                      aria-label="Diapositiva anterior"
+                    >
+                      <ChevronLeft size={26} />
+                    </button>
 
-                  {/* Reproductor (derecha) */}
-                  <motion.section
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
-                    className="player-main"
-                  >
-                    {selectedVideo && currentVideo ? (
-                      <div className="player-active">
-                        <div className="player-video-box">
-                          <video
-                            key={currentVideo.src}
-                            ref={el => (videoRefs.current[currentVideo.id] = el)}
-                            controls
-                            autoPlay
-                            className="player-video"
-                          >
-                            <source src={currentVideo.src} type="video/mp4" />
-                          </video>
-                        </div>
-                        <div className="player-info">
-                          <h2>{currentVideo.titulo}</h2>
-                          <p>Duración: {currentVideo.duracion}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="player-placeholder">
-                        <div className="placeholder-icon">
-                          <Play size={32} />
-                        </div>
-                        <h3>Selecciona un video</h3>
-                        <p>Elige un video de la lista para comenzar a reproducirlo</p>
-                      </div>
-                    )}
-                  </motion.section>
-                </div>
+                    <div className="slideshow-image-wrap">
+                      <AnimatePresence mode="wait" custom={direction}>
+                        <motion.img
+                          key={slideIndex}
+                          src={currentSlides[slideIndex]}
+                          alt={`${currentFolder?.title} - diapositiva ${slideIndex + 1}`}
+                          className="slideshow-image"
+                          custom={direction}
+                          initial={{ opacity: 0, x: direction >= 0 ? 60 : -60 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: direction >= 0 ? -60 : 60 }}
+                          transition={{ duration: 0.35, ease: 'easeOut' }}
+                        />
+                      </AnimatePresence>
+                    </div>
+
+                    <button
+                      className="slideshow-arrow slideshow-arrow-right"
+                      onClick={goToNext}
+                      disabled={slideIndex === totalSlides - 1}
+                      aria-label="Siguiente diapositiva"
+                    >
+                      <ChevronRight size={26} />
+                    </button>
+                  </div>
+
+                  <div className="slideshow-footer">
+                    <span className="slideshow-counter">
+                      Diapositiva {slideIndex + 1} de {totalSlides}
+                    </span>
+                    <div className="slideshow-progress">
+                      <div
+                        className="slideshow-progress-fill"
+                        style={{ width: `${((slideIndex + 1) / totalSlides) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
               )}
             </motion.div>
           )}

@@ -243,12 +243,6 @@ body {
   stroke-width: 2;
 }
 
-/* ── FOLDER COUNT COLOR POR CARPETA ── */
-.folder-card.folder-blue .folder-count { color: #2980b9; }
-.folder-card.folder-amber .folder-count { color: #c8930f; }
-.folder-card.folder-rose .folder-count { color: #e84393; }
-.folder-card.folder-teal .folder-count { color: #1f8c95; }
-
 .folder-title {
   font-size: 17px;
   font-weight: 700;
@@ -257,16 +251,7 @@ body {
   position: relative;
   z-index: 1;
 }
-.folder-count {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  position: relative;
-  z-index: 1;
-}
-
-/* ── VISTA 2: REPRODUCTOR ── */
+/* ── VISTA 2: DIAPOSITIVAS ── */
 .player-wrap {
   width: 100%;
   max-width: 1400px;
@@ -308,85 +293,6 @@ body {
   color: #90a4ae;
 }
 
-.player-split {
-  display: flex;
-  gap: 24px;
-  min-height: 480px;
-}
-
-/* Lista izquierda */
-.player-sidebar {
-  width: 340px;
-  flex-shrink: 0;
-}
-.sidebar-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 16px;
-}
-.video-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.video-list-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  background: #f7f9fb;
-  border: 1px solid #e8edf2;
-  border-radius: 10px;
-  color: #1a1a2e;
-  text-align: left;
-  cursor: pointer;
-  font-family: 'Mont', 'Segoe UI', system-ui, sans-serif;
-  transition: all .2s ease;
-}
-.video-list-item:hover {
-  border-color: #1f8c95;
-  background: #fff;
-}
-.video-list-item.active {
-  background: linear-gradient(135deg, #1a1a2e 0%, #1f8c95 100%);
-  border-color: #1f8c95;
-  color: #fff;
-}
-.video-list-icon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #e8f8f5;
-  color: #1f8c95;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all .2s ease;
-}
-.video-list-item.active .video-list-icon {
-  background: #7fffd4;
-  color: #1a1a2e;
-}
-.video-list-meta {
-  flex: 1;
-  min-width: 0;
-}
-.video-list-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  line-height: 1.3;
-}
-.video-list-sub {
-  font-size: 12px;
-  color: #90a4ae;
-}
-.video-list-item.active .video-list-sub {
-  color: rgba(255, 255, 255, .85);
-}
-
 .empty-state {
   padding: 32px 16px;
   text-align: center;
@@ -396,90 +302,101 @@ body {
   border-radius: 10px;
 }
 
-/* Reproductor derecha */
-.player-main {
-  flex: 1;
-  background: #1a1a2e;
-  border-radius: 12px;
+/* ── CARRUSEL DE DIAPOSITIVAS ── */
+.slideshow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.slideshow-stage {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  background: #f4f7f9;
+  border: 1px solid #e8edf2;
+  border-radius: 16px;
+  padding: 40px 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slideshow-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 480px;
-  box-shadow: 0 8px 32px rgba(26, 26, 46, 0.12);
 }
-.player-active {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.player-video-box {
-  flex: 1;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 360px;
-}
-.player-video {
-  width: 100%;
-  height: 100%;
-  max-height: 520px;
+.slideshow-image {
+  max-width: 100%;
+  max-height: 560px;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid #e2eaf0;
+  box-shadow: 0 12px 32px rgba(26, 26, 46, .14);
 }
-.player-iframe {
-  width: 100%;
-  height: 100%;
-  min-height: 480px;
-  border: 0;
-  background: #fff;
+.slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid #e2eaf0;
+  background: #ffffff;
+  color: #1f8c95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(26, 26, 46, .1);
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease, opacity .2s ease;
 }
-.player-info {
-  padding: 20px 24px 24px;
-  background: #fff;
-  border-top: 1px solid #e8edf2;
+.slideshow-arrow:hover:not(:disabled) {
+  background: #1f8c95;
+  color: #fff;
+  border-color: #1f8c95;
+  transform: translateY(-50%) scale(1.08);
 }
-.player-info h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 6px;
+.slideshow-arrow:disabled {
+  opacity: .3;
+  cursor: not-allowed;
 }
-.player-info p {
-  font-size: 13px;
-  color: #90a4ae;
-}
+.slideshow-arrow-left { left: 20px; }
+.slideshow-arrow-right { right: 20px; }
 
-.player-placeholder {
-  flex: 1;
+.slideshow-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px 24px;
-  color: #fff;
+  gap: 10px;
 }
-.placeholder-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(127, 255, 212, .15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #7fffd4;
-  margin-bottom: 20px;
-}
-.player-placeholder h3 {
-  font-size: 18px;
+.slideshow-counter {
+  font-size: 13px;
   font-weight: 600;
-  color: #fff;
-  margin-bottom: 8px;
+  color: #5a6b7a;
+  letter-spacing: .04em;
 }
-.player-placeholder p {
-  font-size: 14px;
-  color: #90a4ae;
-  max-width: 320px;
+.slideshow-progress {
+  width: 240px;
+  max-width: 60%;
+  height: 5px;
+  background: #e8edf2;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.slideshow-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1f8c95, #7fffd4);
+  border-radius: 999px;
+  transition: width .35s ease;
 }
 
 /* ── DASHBOARD FULLSCREEN ── */
@@ -507,12 +424,19 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  .player-split {
-    flex-direction: column;
+  .slideshow-stage {
+    padding: 24px 58px;
+    min-height: 300px;
   }
-  .player-sidebar {
-    width: 100%;
+  .slideshow-image-wrap {
+    min-height: 260px;
   }
+  .slideshow-arrow {
+    width: 42px;
+    height: 42px;
+  }
+  .slideshow-arrow-left { left: 8px; }
+  .slideshow-arrow-right { right: 8px; }
 }
 
 @media (max-width: 600px) {
